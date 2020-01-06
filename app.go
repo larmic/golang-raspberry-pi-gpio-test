@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/stianeikeland/go-rpio/v4"
 	"os"
+	"os/signal"
 	"time"
 )
 
@@ -22,14 +23,25 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Unmap gpio memory when done
-	defer rpio.Close()
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	go func() {
+		<-c
+		exit()
+		os.Exit(1)
+	}()
 
 	pin.Input()
 
-	// Toggle pin 20 times
-	for x := 0; x < 200; x++ {
-		fmt.Println(pin.Read())
-		time.Sleep(time.Second / 10)
+	for {
+		fmt.Println("Pin value: ", pin.Read())
+		time.Sleep(time.Millisecond * 10)
 	}
+}
+
+func exit() int {
+	defer fmt.Println("Unmap gpio memory!")
+	defer rpio.Close()
+
+	return 3
 }

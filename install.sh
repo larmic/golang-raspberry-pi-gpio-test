@@ -7,7 +7,7 @@ declare -r RASPI_SCP_FOLDER="pi@raspberrypi.local:/home/pi/test"
 # GOOS=linux      -> compile to linux because scratch docker file is linux
 # GOARCH=amd64    -> because, hmm, everthing works fine with 64 bit :)
 # -a              -> force rebuilding of packages that are already up-to-date.
-# -o gpio-test    -> force to build an executable app file (instead of default https://golang.org/cmd/go/#hdr-Compile_packages_and_dependencies)
+# -o gpio-test-x  -> force to build an executable gpio-test-x file (instead of default https://golang.org/cmd/go/#hdr-Compile_packages_and_dependencies)
 
 echo "Building raspberry pi binary '$BINARY_NAME-pi'..."
 env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=5 go build -a -o $BINARY_NAME-pi

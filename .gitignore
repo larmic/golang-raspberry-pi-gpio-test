@@ -1,5 +1,6 @@
 ### GO ###
-gpio-test
+gpio-test-amd64
+gpio-test-arm
 
 ### STS ###
 .apt_generated
